@@ -1,0 +1,1400 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 6 Months, Ayan&Jeenat! • Made by SHOHAR SAHAB</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            wine: {
+              950: '#110307',
+              900: '#1b050d',
+              850: '#260713',
+              800: '#380a1c',
+              700: '#520e29',
+              600: '#75143a',
+            },
+            roseGold: {
+              light: '#fcebe6',
+              soft: '#f5d0a9',
+              DEFAULT: '#e0a96d',
+              dark: '#ba774b',
+              deep: '#824823'
+            },
+            gold: {
+              glow: '#ffdf9e',
+              rich: '#d4af37',
+              pale: '#f5d99b'
+            }
+          },
+          fontFamily: {
+            script: ['"Alex Brush"', 'cursive'],
+            vibes: ['"Great Vibes"', 'cursive'],
+            cinzel: ['"Cinzel"', 'serif'],
+            playfair: ['"Playfair Display"', 'serif'],
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          animation: {
+            'float-slow': 'floatSlow 7s ease-in-out infinite',
+            'float-gentle': 'floatGentle 4s ease-in-out infinite',
+            'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
+            'shimmer': 'shimmer 4s linear infinite',
+            'spin-slow': 'spin 18s linear infinite',
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-10px) rotate(1deg)' },
+            },
+            floatGentle: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-5px)' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: '0.94', transform: 'scale(1)' },
+              '50%': { opacity: '1', transform: 'scale(1.025)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #110307;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #520e29;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ba774b;
+    }
+
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .glass-card {
+      background: rgba(27, 5, 13, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(224, 169, 109, 0.22);
+      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.75), 0 0 18px rgba(186, 119, 75, 0.12);
+    }
+
+    .polaroid-frame {
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      box-shadow: 0 14px 28px -5px rgba(0, 0, 0, 0.85), 0 4px 12px rgba(212, 175, 55, 0.18);
+    }
+    .polaroid-frame:hover {
+      transform: translateY(-8px) scale(1.03) rotate(0deg) !important;
+      box-shadow: 0 22px 42px -6px rgba(0,0,0,0.95), 0 0 26px rgba(224, 169, 109, 0.45);
+      z-index: 25;
+    }
+
+    .video-reel-card {
+      transition: all 0.35s ease;
+      border: 1px solid rgba(224, 169, 109, 0.25);
+    }
+    .video-reel-card:hover {
+      border-color: rgba(224, 169, 109, 0.7);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.6), 0 0 20px rgba(212, 175, 55, 0.2);
+    }
+    .video-reel-card.active-slot {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 24px rgba(212, 175, 55, 0.4);
+    }
+
+    .gold-foil-text {
+      background: linear-gradient(120deg, #fcebe6 0%, #ffdf9e 25%, #e0a96d 50%, #ffffff 75%, #d4af37 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shimmer 5s ease-in-out infinite;
+    }
+
+    .flip-card {
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 1.25rem;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Lock Screen Animations */
+    @keyframes lockHeartBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+    .lock-beat {
+      animation: lockHeartBeat 1.8s infinite ease-in-out;
+    }
+    @keyframes lockShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .shake-animation {
+      animation: lockShake 0.45s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-wine-950 text-roseGold-light font-sans antialiased selection:bg-wine-700 selection:text-white relative overflow-x-hidden min-h-screen">
+
+  <!-- ============================================== -->
+  <!-- FULLSCREEN ROMANTIC PASSWORD GATEWAY           -->
+  <!-- ============================================== -->
+  <div id="anniversaryLockScreen" class="fixed inset-0 z-[999999] bg-[radial-gradient(circle_at_center,_#2f0714_0%,_#110207_100%)] flex items-center justify-center p-4 transition-all duration-700">
+    <div id="lockCardBox" class="relative max-w-md w-full bg-[#1e050f]/95 border-2 border-roseGold/60 rounded-3xl p-7 sm:p-9 text-center shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(212,175,55,0.25)] backdrop-blur-2xl transition-all">
+      
+      <!-- Top Decorative Ribbons -->
+      <div class="lock-beat w-20 h-20 rounded-full mx-auto mb-4 bg-gradient-to-tr from-wine-800 to-wine-600 border border-gold-rich/70 flex items-center justify-center shadow-2xl">
+        <span class="text-3xl">🔐❤️</span>
+      </div>
+
+      <!-- Heading -->
+      <span class="inline-block px-3.5 py-1 rounded-full bg-wine-900 border border-gold-rich/40 text-[11px] font-cinzel uppercase tracking-widest text-gold-glow mb-2">
+        Restricted to True Love
+      </span>
+
+      <h2 class="font-vibes text-5xl sm:text-6xl text-white mb-1 drop-shadow-md">
+        Only For Jeenat
+      </h2>
+      
+      <p class="font-serif text-sm sm:text-base text-roseGold-soft/90 italic mb-5 leading-relaxed">
+        "A special surprise crafted with endless love by <strong class="text-white font-semibold not-italic">SHOHAR SAHAB</strong>. Please enter our secret anniversary date to unlock."
+      </p>
+
+      <!-- Password Form -->
+      <div class="space-y-4">
+        <div class="relative">
+          <input 
+            type="password" 
+            id="secretPassInput" 
+            placeholder="DD-MM-YYYY" 
+            autocomplete="off"
+            class="w-full px-5 py-3.5 bg-black/70 border-2 border-roseGold/50 rounded-xl text-center text-lg sm:text-xl font-bold tracking-[3px] text-gold-glow placeholder-roseGold/30 focus:border-gold-rich focus:ring-2 focus:ring-gold-rich/40 outline-none transition-all shadow-inner"
+          />
+        </div>
+
+        <p id="lockErrorMsg" class="min-h-[22px] text-xs font-serif font-medium text-rose-400"></p>
+
+        <button 
+          onclick="unlockWebsite()" 
+          id="unlockBtn"
+          class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-gold-rich via-roseGold to-gold-rich text-wine-950 font-bold text-sm uppercase tracking-wider shadow-[0_4px_20px_rgba(212,175,55,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+        >
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>Unlock With Love ✨</span>
+        </button>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-roseGold/20 flex items-center justify-center gap-2 text-xs text-roseGold/70 font-serif">
+        <i data-lucide="calendar" class="w-3.5 h-3.5 text-gold-glow"></i>
+        <span>Hint: Humari anniversary date (19-10-2026) 💍</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Ambient Animated Sparkles & Starlight Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Top Floating Utility Pill -->
+  <div class="fixed top-4 right-4 sm:top-5 sm:right-6 z-50 flex items-center gap-2 sm:gap-3">
+    <!-- Music Button -->
+    <button id="musicToggleBtn" onclick="toggleRomanticMusic()" class="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full glass-card border border-roseGold/40 text-xs font-semibold tracking-wider text-roseGold-light hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl group">
+      <span class="relative flex h-2.5 w-2.5">
+        <span id="musicPulse" class="hidden animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-rich opacity-75"></span>
+        <span id="musicDot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-roseGold/60"></span>
+      </span>
+      <i data-lucide="music" class="w-3.5 h-3.5 text-gold-glow group-hover:rotate-12 transition-transform"></i>
+      <span id="musicStatusText" class="hidden sm:inline">Romantic Melody</span>
+    </button>
+
+    <!-- Celebration Fireworks & Hearts Button -->
+    <button onclick="launchCelebrationFireworks(event)" class="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-gradient-to-r from-roseGold-dark via-wine-600 to-roseGold-deep text-white font-medium text-xs tracking-wider shadow-xl hover:shadow-roseGold/40 hover:scale-105 active:scale-95 transition-all">
+      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gold-glow animate-spin-slow"></i>
+      <span>Fireworks</span>
+    </button>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24">
+
+    <!-- HERO SECTION -->
+    <section class="text-center relative py-10 md:py-16">
+      
+      <!-- Top Dedication Pill -->
+      <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-card border border-roseGold/40 text-xs uppercase tracking-widest text-gold-pale mb-4 shadow-inner animate-pulse-subtle">
+        <i data-lucide="heart" class="w-3.5 h-3.5 text-roseGold fill-current"></i>
+        <span>6 Months of Endless Love • For Jeenat</span>
+        <i data-lucide="heart" class="w-3.5 h-3.5 text-roseGold fill-current"></i>
+      </div>
+
+      <!-- Prominent Shohar Sahab Badge -->
+      <div class="mb-5 flex justify-center">
+        <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-wine-900 via-wine-800 to-wine-900 border border-gold-rich/70 shadow-2xl text-xs sm:text-sm font-semibold tracking-wider text-white">
+          <i data-lucide="crown" class="w-4 h-4 text-gold-glow"></i>
+          <span class="gold-foil-text font-cinzel uppercase tracking-widest">Made with Endless Love by SHOHAR SAHAB</span>
+          <i data-lucide="sparkle" class="w-3.5 h-3.5 text-gold-glow"></i>
+        </div>
+      </div>
+
+      <!-- Romantic Script Title -->
+      <h1 class="font-vibes text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-wide drop-shadow-2xl mb-3">
+        Happy 6 Months, Jeenat!
+      </h1>
+      
+      <!-- Subtitle Quote -->
+      <p class="font-serif italic text-2xl sm:text-3xl text-roseGold-soft max-w-3xl mx-auto tracking-wide mb-6">
+        "Tum meri zindagi ka sabse khoobsurat tohfa ho, Jeenat. Har ek pal tumhare saath ek nayi dua lagta hai."
+      </p>
+
+      <!-- Anniversary Date Badge -->
+      <div class="inline-flex items-center gap-3 px-6 py-2.5 rounded-2xl glass-card border border-roseGold/40 shadow-2xl mb-10">
+        <i data-lucide="calendar-heart" class="w-5 h-5 text-gold-glow"></i>
+        <span class="font-cinzel text-xl sm:text-2xl font-bold tracking-widest gold-foil-text">19 • 10 • 2026</span>
+      </div>
+
+      <!-- Live Counter Component -->
+      <div class="max-w-3xl mx-auto p-6 sm:p-8 rounded-3xl glass-card border border-roseGold/30 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-wine-600/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-12 -top-12 w-48 h-48 bg-gold-rich/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="flex items-center justify-center gap-2 mb-5 text-xs font-semibold uppercase tracking-widest text-gold-pale">
+          <i data-lucide="infinity" class="w-4 h-4 text-roseGold animate-pulse"></i>
+          <span>Shohar Sahab & Jeenat: 6 Months Journey In Numbers</span>
+          <i data-lucide="infinity" class="w-4 h-4 text-roseGold animate-pulse"></i>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 text-center">
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-wine-900/70 border border-roseGold/20">
+            <span class="block font-serif text-3xl sm:text-4xl font-bold text-white">6</span>
+            <span class="text-[11px] font-medium tracking-wider uppercase text-roseGold">Months</span>
+          </div>
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-wine-900/70 border border-roseGold/20">
+            <span id="counterDays" class="block font-serif text-3xl sm:text-4xl font-bold text-white">182</span>
+            <span class="text-[11px] font-medium tracking-wider uppercase text-roseGold">Days of Bliss</span>
+          </div>
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-wine-900/70 border border-roseGold/20">
+            <span id="counterHours" class="block font-serif text-3xl sm:text-4xl font-bold text-white">4,368</span>
+            <span class="text-[11px] font-medium tracking-wider uppercase text-roseGold">Hours</span>
+          </div>
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-wine-900/70 border border-roseGold/20">
+            <span id="counterSeconds" class="block font-serif text-3xl sm:text-4xl font-bold text-gold-glow">262,080</span>
+            <span class="text-[11px] font-medium tracking-wider uppercase text-roseGold">Cherished Beats</span>
+          </div>
+        </div>
+
+        <p class="text-xs sm:text-sm italic font-serif text-roseGold-light/90 mt-4 text-center">
+          "Six months down, an eternity to go with my Pasandida Aurat."
+        </p>
+      </div>
+    </section>
+
+    <!-- MULTI-VIDEO CINEMA GALLERY & REEL SECTION (4+ VIDEOS) -->
+    <section class="my-16 sm:my-24 relative max-w-5xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-wine-900/80 border border-roseGold/30 text-xs uppercase tracking-widest text-gold-glow mb-2">
+          <i data-lucide="film" class="w-3.5 h-3.5"></i>
+          <span>Our Moments in Motion</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-white font-bold tracking-tight">
+          Video Memories & Reel Showcase
+        </h2>
+        <p class="text-sm sm:text-base text-roseGold-soft/90 mt-2 font-serif italic max-w-xl mx-auto">
+          "pov:- it's My pasandida Aurat ka bdayy 🎀 | Fireworks, laughter & our sweetest clips"
+        </p>
+      </div>
+
+      <!-- MAIN FEATURED CINEMA THEATER -->
+      <div class="relative rounded-3xl p-4 sm:p-7 glass-card border-2 border-roseGold/40 shadow-2xl overflow-hidden mb-8">
+        
+        <!-- Header Ribbon inside Cinema Player -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-roseGold/20">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></span>
+            <div>
+              <span id="mainVideoTitle" class="font-cinzel text-xs sm:text-sm font-semibold tracking-wider text-white block">
+                1. Midnight Birthday Surprise & Fireworks
+              </span>
+              <span id="mainVideoTag" class="text-[11px] text-roseGold-soft font-serif italic">
+                POV: My pasandida Aurat ka bdayy • 11:59:59 ➔ 00:00:00
+              </span>
+            </div>
+          </div>
+
+          <!-- Cinema Action Buttons -->
+          <div class="flex items-center gap-2">
+            <label class="cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-roseGold-dark to-wine-700 text-white text-xs font-semibold tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-all">
+              <i data-lucide="upload-cloud" class="w-3.5 h-3.5 text-gold-glow"></i>
+              <span>Upload Video For This Slot</span>
+              <input type="file" id="activeSlotUploader" accept="video/*" class="hidden" onchange="handleActiveSlotUpload(event)">
+            </label>
+
+            <button onclick="openVideoCinemaModal()" class="p-2 rounded-full bg-wine-900 border border-roseGold/30 text-roseGold-light hover:text-white transition" title="Open Fullscreen Theater">
+              <i data-lucide="maximize-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Video Screen Area -->
+        <div class="relative w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[16/9] max-h-[520px] bg-black/95 rounded-2xl overflow-hidden border border-roseGold/30 shadow-inner flex items-center justify-center">
+          
+          <!-- Master Video Element -->
+          <video id="featuredMasterVideo" class="w-full h-full object-contain" loop playsinline preload="metadata">
+            <source src="" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+
+          <!-- Placeholder notice if video not yet uploaded -->
+          <div id="masterPlaceholderNotice" class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-[#1b050c]/90 via-[#0d0205]/95 to-[#1c060d]/90">
+            <div class="w-16 h-16 rounded-full bg-wine-800/80 border border-gold-rich/50 flex items-center justify-center mb-3 text-gold-glow shadow-xl">
+              <i data-lucide="clapperboard" class="w-8 h-8"></i>
+            </div>
+            
+            <h3 id="placeholderNoticeTitle" class="font-vibes text-3xl sm:text-5xl text-roseGold mb-1">
+              Midnight Birthday Surprise
+            </h3>
+            <p id="placeholderNoticeSubtitle" class="font-cinzel text-xs text-gold-glow font-bold tracking-widest uppercase mb-2">
+              pov:- it's My pasandida Aurat ka bdayy 🎀
+            </p>
+            <p class="font-serif text-sm text-roseGold-light/90 max-w-md italic mb-5">
+              "Select your video below or tap Upload to watch this memory light up the screen!"
+            </p>
+
+            <button onclick="document.getElementById('activeSlotUploader').click()" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-gold-rich via-roseGold to-gold-rich text-wine-950 font-bold text-xs uppercase tracking-wider shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+              <i data-lucide="video" class="w-4 h-4"></i>
+              <span>Upload Video File (MP4 / MOV)</span>
+            </button>
+          </div>
+
+          <!-- Center Play/Pause Overlay Icon -->
+          <button id="masterCenterPlayBtn" onclick="toggleMasterPlayback()" class="hidden absolute w-16 h-16 rounded-full bg-wine-900/85 border border-gold-glow/50 text-white flex items-center justify-center shadow-2xl backdrop-blur-sm hover:scale-110 active:scale-95 transition">
+            <i id="masterCenterPlayIcon" data-lucide="play" class="w-7 h-7 text-gold-glow ml-1"></i>
+          </button>
+        </div>
+
+        <!-- Master Video Controls Bar -->
+        <div class="mt-4 pt-3 border-t border-roseGold/20 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2 text-roseGold-light font-serif text-sm">
+            <i data-lucide="sparkles" class="w-4 h-4 text-gold-glow"></i>
+            <span id="videoFooterCaption">Dedicated to Jeenat with Endless Love — by Shohar Sahab</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="toggleMasterPlayback()" id="masterPlayBtn" class="px-3.5 py-1.5 rounded-lg bg-wine-900 border border-roseGold/30 text-roseGold-light hover:text-white flex items-center gap-1.5 transition">
+              <i data-lucide="play" class="w-3.5 h-3.5 text-gold-glow" id="masterPlayIcon"></i>
+              <span id="masterPlayText">Play</span>
+            </button>
+            <button onclick="toggleMasterMute()" id="masterMuteBtn" class="px-3.5 py-1.5 rounded-lg bg-wine-900 border border-roseGold/30 text-roseGold-light hover:text-white flex items-center gap-1.5 transition">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5 text-gold-glow" id="masterMuteIcon"></i>
+              <span id="masterMuteText">Mute</span>
+            </button>
+            <button onclick="restartMasterVideo()" class="px-3 py-1.5 rounded-lg bg-wine-900 border border-roseGold/30 text-roseGold-light hover:text-white flex items-center gap-1 transition" title="Replay">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- VIDEO SLOTS REEL (4 Slots) -->
+      <div class="flex items-center justify-between mb-4 px-1">
+        <div>
+          <h3 class="font-cinzel text-sm sm:text-base font-semibold text-white tracking-wider flex items-center gap-2">
+            <i data-lucide="film" class="w-4 h-4 text-gold-glow"></i>
+            <span>Video Reel Slots (Tap to Switch Video)</span>
+          </h3>
+          <p class="text-xs text-roseGold-soft/80 font-serif">Upload your 4 clips for Jeenat or add extra slots</p>
+        </div>
+
+        <!-- Add Another Slot Button -->
+        <button onclick="addNewVideoSlot()" class="px-3.5 py-1.5 rounded-full border border-gold-rich/50 bg-wine-900 text-gold-glow hover:bg-gold-rich/20 text-xs font-semibold tracking-wider flex items-center gap-1.5 transition hover:scale-105 active:scale-95 shadow">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+          <span>Add Another Video Slot</span>
+        </button>
+      </div>
+
+      <!-- Grid of Video Cards -->
+      <div id="videoSlotsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Slot 1: Birthday & Fireworks -->
+        <div id="slot-card-0" class="video-reel-card active-slot glass-card rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer" onclick="selectVideoSlot(0)">
+          <div>
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-black/80 border border-roseGold/20 mb-3 group">
+              <video id="thumb-video-0" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition" muted loop playsinline></video>
+              <div id="thumb-badge-0" class="absolute inset-0 flex items-center justify-center bg-black/40">
+                <i data-lucide="sparkles" class="w-7 h-7 text-gold-glow"></i>
+              </div>
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-wine-900/90 text-gold-glow border border-gold-rich/40">Slot 1</span>
+            </div>
+            <h4 class="font-playfair text-sm font-bold text-white mb-0.5">1. Midnight Birthday Fireworks</h4>
+            <p class="text-[11px] text-roseGold-soft font-serif italic mb-2">"POV: Pasandida Aurat ka bdayy"</p>
+          </div>
+          
+          <div class="pt-2 border-t border-roseGold/20 flex items-center justify-between text-xs" onclick="event.stopPropagation()">
+            <span class="text-[10px] text-gold-pale uppercase tracking-wider font-semibold">11:59:59 ➔ 00:00</span>
+            <label class="cursor-pointer p-1.5 rounded-lg bg-wine-900 hover:bg-wine-800 text-roseGold hover:text-white border border-roseGold/30 transition" title="Upload Video for Slot 1">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="video/*" class="hidden" onchange="handleSlotUpload(event, 0)">
+            </label>
+          </div>
+        </div>
+
+        <!-- Slot 2: Sweet Laughs -->
+        <div id="slot-card-1" class="video-reel-card glass-card rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer" onclick="selectVideoSlot(1)">
+          <div>
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-black/80 border border-roseGold/20 mb-3 group">
+              <video id="thumb-video-1" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition" muted loop playsinline></video>
+              <div id="thumb-badge-1" class="absolute inset-0 flex items-center justify-center bg-black/40">
+                <i data-lucide="smile" class="w-7 h-7 text-gold-glow"></i>
+              </div>
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-wine-900/90 text-gold-glow border border-gold-rich/40">Slot 2</span>
+            </div>
+            <h4 class="font-playfair text-sm font-bold text-white mb-0.5">2. Sweet Laughs & Candids</h4>
+            <p class="text-[11px] text-roseGold-soft font-serif italic mb-2">"Tumhari hansi meri poori duniya"</p>
+          </div>
+          
+          <div class="pt-2 border-t border-roseGold/20 flex items-center justify-between text-xs" onclick="event.stopPropagation()">
+            <span class="text-[10px] text-gold-pale uppercase tracking-wider font-semibold">Candid Smiles</span>
+            <label class="cursor-pointer p-1.5 rounded-lg bg-wine-900 hover:bg-wine-800 text-roseGold hover:text-white border border-roseGold/30 transition" title="Upload Video for Slot 2">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="video/*" class="hidden" onchange="handleSlotUpload(event, 1)">
+            </label>
+          </div>
+        </div>
+
+        <!-- Slot 3: Special Memories & Beautiful Moments -->
+        <div id="slot-card-2" class="video-reel-card glass-card rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer" onclick="selectVideoSlot(2)">
+          <div>
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-black/80 border border-roseGold/20 mb-3 group">
+              <video id="thumb-video-2" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition" muted loop playsinline></video>
+              <div id="thumb-badge-2" class="absolute inset-0 flex items-center justify-center bg-black/40">
+                <i data-lucide="heart" class="w-7 h-7 text-gold-glow fill-current"></i>
+              </div>
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-wine-900/90 text-gold-glow border border-gold-rich/40">Slot 3</span>
+            </div>
+            <h4 class="font-playfair text-sm font-bold text-white mb-0.5">3. Special Memories</h4>
+            <p class="text-[11px] text-roseGold-soft font-serif italic mb-2">"Tumhare sath har lamha anmol hai, Jeenat"</p>
+          </div>
+          
+          <div class="pt-2 border-t border-roseGold/20 flex items-center justify-between text-xs" onclick="event.stopPropagation()">
+            <span class="text-[10px] text-gold-pale uppercase tracking-wider font-semibold">Precious Moments</span>
+            <label class="cursor-pointer p-1.5 rounded-lg bg-wine-900 hover:bg-wine-800 text-roseGold hover:text-white border border-roseGold/30 transition" title="Upload Video for Slot 3">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="video/*" class="hidden" onchange="handleSlotUpload(event, 2)">
+            </label>
+          </div>
+        </div>
+
+        <!-- Slot 4: Endless Love & Promises -->
+        <div id="slot-card-3" class="video-reel-card glass-card rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer" onclick="selectVideoSlot(3)">
+          <div>
+            <div class="relative aspect-video rounded-xl overflow-hidden bg-black/80 border border-roseGold/20 mb-3 group">
+              <video id="thumb-video-3" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition" muted loop playsinline></video>
+              <div id="thumb-badge-3" class="absolute inset-0 flex items-center justify-center bg-black/40">
+                <i data-lucide="infinity" class="w-7 h-7 text-gold-glow"></i>
+              </div>
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-wine-900/90 text-gold-glow border border-gold-rich/40">Slot 4</span>
+            </div>
+            <h4 class="font-playfair text-sm font-bold text-white mb-0.5">4. Endless Love & Promises</h4>
+            <p class="text-[11px] text-roseGold-soft font-serif italic mb-2">"Humesha ke liye Jeenat aur Shohar"</p>
+          </div>
+          
+          <div class="pt-2 border-t border-roseGold/20 flex items-center justify-between text-xs" onclick="event.stopPropagation()">
+            <span class="text-[10px] text-gold-pale uppercase tracking-wider font-semibold">19-10-2026</span>
+            <label class="cursor-pointer p-1.5 rounded-lg bg-wine-900 hover:bg-wine-800 text-roseGold hover:text-white border border-roseGold/30 transition" title="Upload Video for Slot 4">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="video/*" class="hidden" onchange="handleSlotUpload(event, 3)">
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- HEARTFELT LOVE LETTER SECTION -->
+    <section class="my-16 sm:my-24 relative max-w-3xl mx-auto">
+      <div class="relative rounded-3xl p-8 sm:p-12 md:p-14 bg-gradient-to-b from-[#2d0914] via-[#1f060e] to-[#280711] border-2 border-roseGold/40 shadow-2xl overflow-hidden">
+        
+        <div class="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-gold-rich/70 rounded-tl-lg"></div>
+        <div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-gold-rich/70 rounded-tr-lg"></div>
+        <div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-gold-rich/70 rounded-bl-lg"></div>
+        <div class="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-gold-rich/70 rounded-br-lg"></div>
+
+        <div class="text-center mb-6">
+          <span class="font-vibes text-4xl sm:text-5xl text-roseGold">Meri Pyaari Jeenat ke Naam...</span>
+          <h2 class="font-playfair text-2xl sm:text-3xl text-white font-semibold mt-1">A Love Letter to My Pasandida Aurat</h2>
+          <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-gold-rich to-transparent mx-auto mt-3"></div>
+        </div>
+
+        <div class="font-serif text-base sm:text-lg leading-relaxed text-roseGold-light/95 space-y-4 text-justify sm:text-left">
+          <p>
+            <span class="font-script text-4xl text-gold-glow float-left mr-2">M</span>eri pyaari <strong class="text-white font-semibold">Jeenat</strong>, in pichhle <strong class="text-gold-glow font-semibold">6 khoobsurat mahino</strong> mein tumne mere dil aur meri poori zindagi ko itni mohabbat aur sukoon se bhar diya hai ki mere paas shukr ada karne ke liye lafz kam pad jaate hain.
+          </p>
+          <p>
+            From the very first moment to this precious day of <strong class="text-gold-glow">19-10-2026</strong>, har ek muskaan, har ek baat, aur har lamha jo humne saath guzara hai, mere dil ke sabse khaas kone mein hamesha ke liye bas gaya hai. Tum meri sabse achhi dost bhi ho, meri sukoon-e-jaan bhi, aur meri aane wali har kal ki roshni bhi.
+          </p>
+          <p class="italic text-white font-medium bg-wine-900/60 p-4 rounded-xl border-l-4 border-gold-rich">
+            "Jeenat, tum meri zindagi ki sabse khoobsurat dua ho. Tumhari hansi meri taqat hai, aur tumhara sath meri sabse badi manzil."
+          </p>
+          <p>
+            Chahe midnight ke fireworks ho ya aam dino ki chhoti chhoti baatein, jab tak tumhara hath mere hath mein hai, har pal ek khwab jaisa lagta hai. 6 mahine toh sirf shuruaat hain, abhi to poori zindagi baaki hai.
+          </p>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-roseGold/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-2 text-sm text-roseGold font-serif">
+            <i data-lucide="heart-handshake" class="w-4 h-4 text-roseGold-dark"></i>
+            <span>Always & Forever Yours, Jeenat</span>
+          </div>
+          <div class="text-right">
+            <span class="block font-vibes text-3xl sm:text-4xl text-gold-glow">Aapka Shohar</span>
+            <span class="text-[11px] font-cinzel tracking-widest uppercase text-gold-pale/80 font-bold">SHOHAR SAHAB</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PHOTO SCRAPBOOK SECTION (6 POLAROIDS) -->
+    <section class="my-16 sm:my-24">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 text-gold-pale text-xs uppercase tracking-widest font-semibold mb-2">
+          <i data-lucide="camera" class="w-4 h-4"></i>
+          <span>Our Precious Polaroids</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-white font-bold tracking-tight">
+          Scrapbook of 6 Months Together
+        </h2>
+        <p class="text-sm text-roseGold-soft/80 mt-2 max-w-xl mx-auto font-serif">
+          Tap on any photo to zoom in, or tap the upload icon on any frame to place your pictures directly!
+        </p>
+      </div>
+
+      <!-- Polaroid Grid (6 Photos) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+        
+        <!-- Polaroid Card 1 -->
+        <div class="polaroid-frame bg-[#fefdfb] text-stone-900 p-4 sm:p-5 rounded-sm transform -rotate-2 relative group cursor-pointer" onclick="openLightbox(0)">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-amber-100/75 border border-amber-300/40 rounded-sm shadow-sm rotate-1 z-10 backdrop-blur-xs"></div>
+          
+          <div class="aspect-[4/5] overflow-hidden rounded bg-stone-200 relative">
+            <img id="img-0" src="photo2.jpg">
+            <label class="absolute bottom-2 right-2 p-2 rounded-full bg-black/70 text-white hover:bg-black cursor-pointer transition shadow" title="Upload Photo" onclick="event.stopPropagation()">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 0)">
+            </label>
+          </div>
+          <div class="pt-4 pb-1 text-center">
+            <p class="font-script text-2xl sm:text-3xl text-wine-900">Shohar Sahab & Jeenat</p>
+            <p class="text-[11px] font-sans text-stone-500 uppercase tracking-widest mt-0.5">Our Journey • Day 1</p>
+          </div>
+        </div>
+
+        <!-- Polaroid Card 2 -->
+        <div class="polaroid-frame bg-[#fefdfb] text-stone-900 p-4 sm:p-5 rounded-sm transform rotate-2 relative group cursor-pointer" onclick="openLightbox(1)">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-rose-100/75 border border-rose-300/40 rounded-sm shadow-sm -rotate-2 z-10 backdrop-blur-xs"></div>
+          
+          <div class="aspect-[4/5] overflow-hidden rounded bg-stone-200 relative">
+            <img id="img-1" src="photo1.jpg">
+            <label class="absolute bottom-2 right-2 p-2 rounded-full bg-black/70 text-white hover:bg-black cursor-pointer transition shadow" title="Upload Photo" onclick="event.stopPropagation()">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 1)">
+            </label>
+          </div>
+          <div class="pt-4 pb-1 text-center">
+            <p class="font-script text-2xl sm:text-3xl text-wine-900">Beautiful Memories</p>
+            <p class="text-[11px] font-sans text-stone-500 uppercase tracking-widest mt-0.5">Jeenat's Sweet Smile</p>
+          </div>
+        </div>
+
+        <!-- Polaroid Card 3 -->
+        <div class="polaroid-frame bg-[#fefdfb] text-stone-900 p-4 sm:p-5 rounded-sm transform -rotate-1 relative group cursor-pointer" onclick="openLightbox(2)">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-amber-100/75 border border-amber-300/40 rounded-sm shadow-sm rotate-2 z-10 backdrop-blur-xs"></div>
+          
+          <div class="aspect-[4/5] overflow-hidden rounded bg-stone-200 relative">
+            <img id="img-2" src="photo3.jpg">
+            <label class="absolute bottom-2 right-2 p-2 rounded-full bg-black/70 text-white hover:bg-black cursor-pointer transition shadow" title="Upload Photo" onclick="event.stopPropagation()">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 2)">
+            </label>
+          </div>
+          <div class="pt-4 pb-1 text-center">
+            <p class="font-script text-2xl sm:text-3xl text-wine-900">You & Me Always</p>
+            <p class="text-[11px] font-sans text-stone-500 uppercase tracking-widest mt-0.5">My Favorite View</p>
+          </div>
+        </div>
+
+        <!-- Polaroid Card 4 -->
+        <div class="polaroid-frame bg-[#fefdfb] text-stone-900 p-4 sm:p-5 rounded-sm transform rotate-1 relative group cursor-pointer" onclick="openLightbox(3)">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-rose-100/75 border border-rose-300/40 rounded-sm shadow-sm -rotate-1 z-10 backdrop-blur-xs"></div>
+          
+          <div class="aspect-[4/5] overflow-hidden rounded bg-stone-200 relative">
+            <img id="img-3" src="photo4.jpg">
+            <label class="absolute bottom-2 right-2 p-2 rounded-full bg-black/70 text-white hover:bg-black cursor-pointer transition shadow" title="Upload Photo" onclick="event.stopPropagation()">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 3)">
+            </label>
+          </div>
+          <div class="pt-4 pb-1 text-center">
+            <p class="font-script text-2xl sm:text-3xl text-wine-900">Cherished Moments</p>
+            <p class="text-[11px] font-sans text-stone-500 uppercase tracking-widest mt-0.5">Kiss of Pure Love</p>
+          </div>
+        </div>
+
+        <!-- Polaroid Card 5 -->
+        <div class="polaroid-frame bg-[#fefdfb] text-stone-900 p-4 sm:p-5 rounded-sm transform -rotate-2 relative group cursor-pointer" onclick="openLightbox(4)">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-amber-100/75 border border-amber-300/40 rounded-sm shadow-sm rotate-1 z-10 backdrop-blur-xs"></div>
+          
+          <div class="aspect-[4/5] overflow-hidden rounded bg-stone-200 relative">
+            <img id="img-4" src="photo5.jpg">
+            <label class="absolute bottom-2 right-2 p-2 rounded-full bg-black/70 text-white hover:bg-black cursor-pointer transition shadow" title="Upload Photo" onclick="event.stopPropagation()">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 4)">
+            </label>
+          </div>
+          <div class="pt-4 pb-1 text-center">
+            <p class="font-script text-2xl sm:text-3xl text-wine-900">Our Story • 6 Months</p>
+            <p class="text-[11px] font-sans text-stone-500 uppercase tracking-widest mt-0.5">Together In Every Step</p>
+          </div>
+        </div>
+
+        <!-- Polaroid Card 6 -->
+        <div class="polaroid-frame bg-[#fefdfb] text-stone-900 p-4 sm:p-5 rounded-sm transform rotate-2 relative group cursor-pointer" onclick="openLightbox(5)">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-rose-100/75 border border-rose-300/40 rounded-sm shadow-sm -rotate-2 z-10 backdrop-blur-xs"></div>
+          
+          <div class="aspect-[4/5] overflow-hidden rounded bg-stone-200 relative">
+            <img id="img-5" src="photo6.jpg">
+            <label class="absolute bottom-2 right-2 p-2 rounded-full bg-black/70 text-white hover:bg-black cursor-pointer transition shadow" title="Upload Photo" onclick="event.stopPropagation()">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <input type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 5)">
+            </label>
+          </div>
+          <div class="pt-4 pb-1 text-center">
+            <p class="font-script text-2xl sm:text-3xl text-wine-900">19 • 10 • 2026</p>
+            <p class="text-[11px] font-sans text-stone-500 uppercase tracking-widest mt-0.5">Happy Anniversary Jeenat</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- REASONS WHY I LOVE YOU FLIP CARDS -->
+    <section class="my-16 sm:my-24">
+      <div class="text-center mb-10">
+        <span class="text-xs font-semibold uppercase tracking-widest text-gold-pale font-cinzel">Endless Devotion</span>
+        <h2 class="font-playfair text-3xl sm:text-4xl text-white font-bold mt-1">Why I Love You, Jeenat</h2>
+        <p class="text-xs sm:text-sm text-roseGold-soft/80 mt-1 font-serif">Tap each card to reveal Shohar Sahab's thoughts</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+        
+        <!-- Card 1 -->
+        <div class="flip-card h-52 cursor-pointer" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-card border border-roseGold/30 flex flex-col items-center justify-center p-6 text-center hover:border-gold-rich transition">
+              <i data-lucide="sparkles" class="w-8 h-8 text-gold-glow mb-3"></i>
+              <h4 class="font-playfair text-lg font-semibold text-white">Your Kind Smile</h4>
+              <p class="text-xs text-roseGold-soft/70 mt-2">Tap to read ✨</p>
+            </div>
+            <div class="flip-card-back bg-gradient-to-br from-wine-800 to-wine-900 border border-gold-rich/50 p-5 flex flex-col justify-center text-center shadow-xl">
+              <p class="text-xs font-medium text-gold-glow leading-relaxed font-serif">
+                "Jeenat, tumhari muskurahat mere sabse bure din ko bhi roshan kar deti hai. Tum hasti ho toh meri duniya khil uthti hai."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="flip-card h-52 cursor-pointer" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-card border border-roseGold/30 flex flex-col items-center justify-center p-6 text-center hover:border-gold-rich transition">
+              <i data-lucide="heart" class="w-8 h-8 text-roseGold mb-3 fill-current"></i>
+              <h4 class="font-playfair text-lg font-semibold text-white">Your Pure Heart</h4>
+              <p class="text-xs text-roseGold-soft/70 mt-2">Tap to read ✨</p>
+            </div>
+            <div class="flip-card-back bg-gradient-to-br from-wine-800 to-wine-900 border border-gold-rich/50 p-5 flex flex-col justify-center text-center shadow-xl">
+              <p class="text-xs font-medium text-gold-glow leading-relaxed font-serif">
+                "You love so purely, Jeenat. Tumhari masoomiyat aur care karne ka andaaz Shohar Sahab ke liye sabse anmol hai."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="flip-card h-52 cursor-pointer" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-card border border-roseGold/30 flex flex-col items-center justify-center p-6 text-center hover:border-gold-rich transition">
+              <i data-lucide="shield-check" class="w-8 h-8 text-gold-glow mb-3"></i>
+              <h4 class="font-playfair text-lg font-semibold text-white">My Safe Haven</h4>
+              <p class="text-xs text-roseGold-soft/70 mt-2">Tap to read ✨</p>
+            </div>
+            <div class="flip-card-back bg-gradient-to-br from-wine-800 to-wine-900 border border-gold-rich/50 p-5 flex flex-col justify-center text-center shadow-xl">
+              <p class="text-xs font-medium text-gold-glow leading-relaxed font-serif">
+                "Tumhare paas aakar saari duniya ka shor tham jata hai, Jeenat. Tum mera sabse mehfooz aur pyara aashiyana ho."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="flip-card h-52 cursor-pointer" onclick="this.classList.toggle('flipped')">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-card border border-roseGold/30 flex flex-col items-center justify-center p-6 text-center hover:border-gold-rich transition">
+              <i data-lucide="infinity" class="w-8 h-8 text-roseGold mb-3"></i>
+              <h4 class="font-playfair text-lg font-semibold text-white">Forever Bond</h4>
+              <p class="text-xs text-roseGold-soft/70 mt-2">Tap to read ✨</p>
+            </div>
+            <div class="flip-card-back bg-gradient-to-br from-wine-800 to-wine-900 border border-gold-rich/50 p-5 flex flex-col justify-center text-center shadow-xl">
+              <p class="text-xs font-medium text-gold-glow leading-relaxed font-serif">
+                "6 mahine toh shuruaat hain Jeenat, Shohar Sahab ki har dua aur saari zindagi sirf aur sirf tumhare liye hai."
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROMISE & VOW GENERATOR -->
+    <section class="my-16 sm:my-20 text-center max-w-2xl mx-auto p-8 rounded-3xl glass-card border border-roseGold/40 relative">
+      <div class="w-12 h-12 rounded-full bg-wine-800 border border-gold-rich/60 flex items-center justify-center mx-auto mb-4 text-gold-glow">
+        <i data-lucide="gift" class="w-6 h-6 animate-bounce"></i>
+      </div>
+      <h3 class="font-playfair text-2xl font-bold text-white mb-2">Shohar Sahab's Promise to Jeenat</h3>
+      <p id="loveVowText" class="font-serif text-lg italic text-roseGold-soft min-h-[60px] flex items-center justify-center px-4 transition-opacity duration-300">
+        "Jeenat, I promise to hold your hand through every season, to listen with patience, and to love you more with every passing sunset."
+      </p>
+      
+      <button onclick="generateNewVow()" class="mt-4 px-6 py-2.5 rounded-full border border-gold-rich/50 text-xs tracking-wider uppercase text-gold-glow font-semibold hover:bg-gold-rich/10 transition active:scale-95 inline-flex items-center gap-2">
+        <i data-lucide="sparkle" class="w-3.5 h-3.5"></i>
+        <span>Read Another Promise</span>
+      </button>
+    </section>
+
+    <!-- FOOTER WITH ROYAL SIGNATURE -->
+    <footer class="text-center pt-10 border-t border-roseGold/20">
+      <p class="font-vibes text-4xl sm:text-5xl text-roseGold">Forever & Always, My Queen Jeenat</p>
+      
+      <div class="my-4 inline-flex items-center gap-2 px-6 py-2 rounded-full bg-wine-900/90 border border-gold-rich/60 shadow-xl">
+        <i data-lucide="crown" class="w-4 h-4 text-gold-glow"></i>
+        <span class="font-cinzel tracking-widest text-xs sm:text-sm text-white font-bold uppercase">Made with endless love by SHOHAR SAHAB</span>
+        <i data-lucide="heart" class="w-3.5 h-3.5 text-roseGold fill-current"></i>
+      </div>
+
+      <p class="font-serif text-sm text-roseGold-soft/70">19 • 10 • 2026 • Happy 6 Months Anniversary!</p>
+    </footer>
+
+  </main>
+
+  <!-- FULLSCREEN VIDEO CINEMA MODAL -->
+  <div id="videoCinemaModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-lg hidden flex flex-col items-center justify-center p-3 sm:p-6" onclick="closeVideoCinemaModal()">
+    <div class="relative w-full max-w-4xl bg-wine-950 border border-roseGold/40 rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col items-center" onclick="event.stopPropagation()">
+      <button onclick="closeVideoCinemaModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-wine-900/80 border border-roseGold/30 hover:bg-wine-800 flex items-center justify-center text-white transition">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="w-full text-center mb-3">
+        <h4 id="cinemaModalTitle" class="font-cinzel text-lg sm:text-xl font-bold text-white"></h4>
+        <p id="cinemaModalSub" class="font-serif italic text-sm text-gold-glow"></p>
+      </div>
+
+      <div class="w-full max-h-[75vh] aspect-video bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-roseGold/20">
+        <video id="cinemaModalVideo" class="w-full h-full object-contain" controls autoplay playsinline loop></video>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMAGE LIGHTBOX MODAL -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4" onclick="closeLightbox()">
+    <div class="relative max-w-xl w-full bg-[#fefdfb] p-4 sm:p-6 rounded-md shadow-2xl text-stone-900" onclick="event.stopPropagation()">
+      <button onclick="closeLightbox()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-stone-900/10 hover:bg-stone-900/20 flex items-center justify-center text-stone-700 transition">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+      <div class="max-h-[70vh] overflow-hidden rounded bg-stone-200">
+        <img id="lightboxImg" src="" alt="Enlarged Memory" class="w-full h-full object-contain mx-auto">
+      </div>
+      <div class="pt-4 text-center">
+        <p id="lightboxCaption" class="font-script text-3xl text-wine-900"></p>
+        <p id="lightboxSub" class="text-xs uppercase tracking-widest text-stone-500 mt-1"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Initialize Lucide icons and initial states
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initAmbientStars();
+      selectVideoSlot(0);
+
+      // Auto-focus password input and bind Enter key
+      const passInput = document.getElementById('secretPassInput');
+      if (passInput) {
+        passInput.focus();
+        passInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') unlockWebsite();
+        });
+      }
+    });
+
+    // ==============================================
+    // 0. PASSWORD GATEWAY LOGIC (Password: 19-10-2026)
+    // ==============================================
+    function unlockWebsite() {
+      const input = document.getElementById('secretPassInput');
+      const err = document.getElementById('lockErrorMsg');
+      const lockScreen = document.getElementById('anniversaryLockScreen');
+      const cardBox = document.getElementById('lockCardBox');
+
+      if (!input) return;
+      const val = input.value.trim().toLowerCase();
+
+      // Acceptable variations of the anniversary date
+      const accepted = ['19-10-2026', '19/10/2026', '19102026', '19.10.2026'];
+
+      if (accepted.includes(val)) {
+        err.className = "min-h-[22px] text-xs font-serif font-semibold text-emerald-400";
+        err.textContent = "Welcome, Meri Jaan Jeenat! ❤️ Unlocking your surprise...";
+        
+        // Massive celebratory bursts
+        triggerCelebrationParticles();
+        setTimeout(triggerCelebrationParticles, 300);
+
+        // Auto-start ambient melody on user interaction
+        try {
+          if (!isPlayingMusic) {
+            toggleRomanticMusic();
+          }
+        } catch (e) {}
+
+        // Smooth transition out
+        cardBox.style.transform = 'scale(1.08)';
+        lockScreen.style.opacity = '0';
+        lockScreen.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          lockScreen.style.display = 'none';
+        }, 700);
+
+      } else {
+        // Incorrect password handling
+        err.className = "min-h-[22px] text-xs font-serif font-medium text-rose-400";
+        err.textContent = "Galat date! Sirf SHOHAR SAHAB aur Jeenat ki special date chalegi ❤️";
+        
+        cardBox.classList.add('shake-animation');
+        input.classList.add('border-rose-500');
+        input.value = "";
+        input.focus();
+
+        setTimeout(() => {
+          cardBox.classList.remove('shake-animation');
+          input.classList.remove('border-rose-500');
+        }, 600);
+      }
+    }
+
+    // 1. Ambient Starlight Canvas Animation
+    function initAmbientStars() {
+      const canvas = document.getElementById('ambient-canvas');
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      for (let i = 0; i < 65; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5 + 0.5,
+          alpha: Math.random(),
+          speed: Math.random() * 0.015 + 0.005,
+          color: Math.random() > 0.5 ? '#d4af37' : '#e0a96d'
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+          star.alpha += star.speed;
+          if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = star.color;
+          ctx.globalAlpha = Math.abs(star.alpha) * 0.6;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // 2. MULTI-VIDEO DATA & REEL ENGINE (4 Slots with Special Memories)
+    let videoSlots = [
+      {
+        id: 0,
+        title: "1. Midnight Birthday Surprise & Fireworks",
+        subtitle: "POV: My pasandida Aurat ka bdayy • 11:59:59 ➔ 00:00:00",
+        footer: "Happiest Birthday Meri Jaan! Midnight fireworks for Jeenat — by Shohar Sahab",
+        src:"video3.mp4"
+      },
+      {
+        id: 1,
+        title: "2. Sweet Laughs & Candid Moments",
+        subtitle: "Tumhari hansi meri sabse pyari manzil hai, Jeenat",
+        footer: "Every laugh with you is a blessing — Shohar Sahab & Jeenat",
+        src:"video5.mp4"
+      },
+      {
+        id: 2,
+        title: "3. Special Memories & Beautiful Moments",
+        subtitle: "Tumhare sath bitaya har lamha dil ke kareeb hai, meri jaan Jeenat",
+        footer: "Unforgettable memories etched forever in my heart — by Shohar Sahab",
+        src:"video1.mp4"
+      },
+      {
+        id: 3,
+        title: "4. Endless Love & Anniversary Promises (19-10-2026)",
+        subtitle: "19-10-2026 • 6 Months Down, A Lifetime Together",
+        footer: "Shohar Sahab's eternal commitment to Queen Jeenat",
+        src:"video4.mp4"
+      }
+    ];
+
+    let currentActiveSlotIndex = 0;
+
+    const masterVideo = document.getElementById('featuredMasterVideo');
+    const masterPlaceholder = document.getElementById('masterPlaceholderNotice');
+    const masterCenterPlayBtn = document.getElementById('masterCenterPlayBtn');
+    const masterPlayBtnText = document.getElementById('masterPlayText');
+    const masterPlayBtnIcon = document.getElementById('masterPlayIcon');
+    const masterMuteBtnText = document.getElementById('masterMuteText');
+    const masterMuteBtnIcon = document.getElementById('masterMuteIcon');
+
+    function selectVideoSlot(index) {
+      if (!videoSlots[index]) return;
+      currentActiveSlotIndex = index;
+      const data = videoSlots[index];
+
+      document.querySelectorAll('.video-reel-card').forEach((card, i) => {
+        if (i === index) {
+          card.classList.add('active-slot');
+        } else {
+          card.classList.remove('active-slot');
+        }
+      });
+
+      document.getElementById('mainVideoTitle').textContent = data.title;
+      document.getElementById('mainVideoTag').textContent = data.subtitle;
+      document.getElementById('videoFooterCaption').textContent = data.footer;
+      document.getElementById('placeholderNoticeTitle').textContent = data.title;
+      document.getElementById('placeholderNoticeSubtitle').textContent = data.subtitle;
+
+      if (data.src) {
+        masterVideo.src = data.src;
+        masterPlaceholder.classList.add('hidden');
+        masterCenterPlayBtn.classList.remove('hidden');
+        masterVideo.play().then(() => {
+          updateMasterPlayUI(true);
+        }).catch(() => {
+          updateMasterPlayUI(false);
+        });
+      } else {
+        masterVideo.pause();
+        masterVideo.src = "";
+        masterPlaceholder.classList.remove('hidden');
+        masterCenterPlayBtn.classList.add('hidden');
+        updateMasterPlayUI(false);
+      }
+    }
+
+    function handleActiveSlotUpload(event) {
+      handleSlotUpload(event, currentActiveSlotIndex);
+    }
+
+    function handleSlotUpload(event, slotIndex) {
+      const file = event.target.files[0];
+      if (file && videoSlots[slotIndex]) {
+        const fileURL = URL.createObjectURL(file);
+        videoSlots[slotIndex].src = fileURL;
+
+        const thumbVid = document.getElementById(`thumb-video-${slotIndex}`);
+        const thumbBadge = document.getElementById(`thumb-badge-${slotIndex}`);
+        if (thumbVid) {
+          thumbVid.src = fileURL;
+          thumbVid.play().catch(() => {});
+        }
+        if (thumbBadge) {
+          thumbBadge.innerHTML = '<i data-lucide="play-circle" class="w-8 h-8 text-gold-glow"></i>';
+          lucide.createIcons();
+        }
+
+        if (currentActiveSlotIndex === slotIndex) {
+          selectVideoSlot(slotIndex);
+        }
+
+        triggerCelebrationParticles();
+      }
+    }
+
+    function toggleMasterPlayback() {
+      const activeData = videoSlots[currentActiveSlotIndex];
+      if (!activeData || !activeData.src) {
+        document.getElementById('activeSlotUploader').click();
+        return;
+      }
+      if (masterVideo.paused) {
+        masterVideo.play();
+        updateMasterPlayUI(true);
+      } else {
+        masterVideo.pause();
+        updateMasterPlayUI(false);
+      }
+    }
+
+    function updateMasterPlayUI(isPlaying) {
+      const centerPlayIcon = document.getElementById('masterCenterPlayIcon');
+      if (isPlaying) {
+        masterPlayBtnText.textContent = 'Pause';
+        masterPlayBtnIcon.setAttribute('data-lucide', 'pause');
+        centerPlayIcon.setAttribute('data-lucide', 'pause');
+        masterCenterPlayBtn.classList.add('opacity-0');
+      } else {
+        masterPlayBtnText.textContent = 'Play';
+        masterPlayBtnIcon.setAttribute('data-lucide', 'play');
+        centerPlayIcon.setAttribute('data-lucide', 'play');
+        masterCenterPlayBtn.classList.remove('opacity-0');
+      }
+      lucide.createIcons();
+    }
+
+    function toggleMasterMute() {
+      masterVideo.muted = !masterVideo.muted;
+      if (masterVideo.muted) {
+        masterMuteBtnText.textContent = 'Unmute';
+        masterMuteBtnIcon.setAttribute('data-lucide', 'volume-x');
+      } else {
+        masterMuteBtnText.textContent = 'Mute';
+        masterMuteBtnIcon.setAttribute('data-lucide', 'volume-2');
+      }
+      lucide.createIcons();
+    }
+
+    function restartMasterVideo() {
+      masterVideo.currentTime = 0;
+      masterVideo.play();
+      updateMasterPlayUI(true);
+    }
+
+    function addNewVideoSlot() {
+      const newIndex = videoSlots.length;
+      const newSlotNumber = newIndex + 1;
+      const newSlotData = {
+        id: newIndex,
+        title: `${newSlotNumber}. Special Clip for Jeenat`,
+        subtitle: "Another unforgettable romantic memory together",
+        footer: "Made with eternal love by Shohar Sahab",
+        src: null
+      };
+      videoSlots.push(newSlotData);
+
+      const container = document.getElementById('videoSlotsContainer');
+      const card = document.createElement('div');
+      card.id = `slot-card-${newIndex}`;
+      card.className = "video-reel-card glass-card rounded-2xl p-3.5 flex flex-col justify-between cursor-pointer";
+      card.setAttribute('onclick', `selectVideoSlot(${newIndex})`);
+
+      card.innerHTML = `
+        <div>
+          <div class="relative aspect-video rounded-xl overflow-hidden bg-black/80 border border-roseGold/20 mb-3 group">
+            <video id="thumb-video-${newIndex}" class="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition" muted loop playsinline></video>
+            <div id="thumb-badge-${newIndex}" class="absolute inset-0 flex items-center justify-center bg-black/40">
+              <i data-lucide="video" class="w-7 h-7 text-gold-glow"></i>
+            </div>
+            <span class="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold bg-wine-900/90 text-gold-glow border border-gold-rich/40">Slot ${newSlotNumber}</span>
+          </div>
+          <h4 class="font-playfair text-sm font-bold text-white mb-0.5">${newSlotNumber}. Extra Video Reel</h4>
+          <p class="text-[11px] text-roseGold-soft font-serif italic mb-2">"Pyari Jeenat ke liye ek aur video"</p>
+        </div>
+        
+        <div class="pt-2 border-t border-roseGold/20 flex items-center justify-between text-xs" onclick="event.stopPropagation()">
+          <span class="text-[10px] text-gold-pale uppercase tracking-wider font-semibold">Custom Reel</span>
+          <label class="cursor-pointer p-1.5 rounded-lg bg-wine-900 hover:bg-wine-800 text-roseGold hover:text-white border border-roseGold/30 transition" title="Upload Video for Slot ${newSlotNumber}">
+            <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+            <input type="file" accept="video/*" class="hidden" onchange="handleSlotUpload(event, ${newIndex})">
+          </label>
+        </div>
+      `;
+      container.appendChild(card);
+      lucide.createIcons();
+      triggerCelebrationParticles();
+      selectVideoSlot(newIndex);
+    }
+
+    function openVideoCinemaModal() {
+      const activeData = videoSlots[currentActiveSlotIndex];
+      const modal = document.getElementById('videoCinemaModal');
+      const modalVideo = document.getElementById('cinemaModalVideo');
+      const title = document.getElementById('cinemaModalTitle');
+      const sub = document.getElementById('cinemaModalSub');
+
+      title.textContent = activeData.title;
+      sub.textContent = activeData.subtitle;
+
+      if (activeData.src) {
+        modalVideo.src = activeData.src;
+        modalVideo.currentTime = masterVideo.currentTime || 0;
+        modal.classList.remove('hidden');
+        modalVideo.play().catch(() => {});
+      } else {
+        document.getElementById('activeSlotUploader').click();
+      }
+    }
+
+    function closeVideoCinemaModal() {
+      const modal = document.getElementById('videoCinemaModal');
+      const modalVideo = document.getElementById('cinemaModalVideo');
+      modalVideo.pause();
+      modalVideo.src = "";
+      modal.classList.add('hidden');
+    }
+
+    // 3. Ambient Web Audio API synthesized Chimes
+    let audioCtx = null;
+    let isPlayingMusic = false;
+    let musicInterval = null;
+
+    function toggleRomanticMusic() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      isPlayingMusic = !isPlayingMusic;
+      const pulse = document.getElementById('musicPulse');
+      const dot = document.getElementById('musicDot');
+      const text = document.getElementById('musicStatusText');
+
+      if (isPlayingMusic) {
+        pulse.classList.remove('hidden');
+        dot.classList.add('bg-gold-glow');
+        text.textContent = 'Playing Melody';
+        startRomanticChimes();
+      } else {
+        pulse.classList.add('hidden');
+        dot.classList.remove('bg-gold-glow');
+        text.textContent = 'Romantic Melody';
+        stopRomanticChimes();
+      }
+    }
+
+    function playSoftChime(frequency, duration, timeOffset = 0) {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(frequency, audioCtx.currentTime + timeOffset);
+
+      gain.gain.setValueAtTime(0.001, audioCtx.currentTime + timeOffset);
+      gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + timeOffset + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + timeOffset + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(audioCtx.currentTime + timeOffset);
+      osc.stop(audioCtx.currentTime + timeOffset + duration + 0.1);
+    }
+
+    function startRomanticChimes() {
+      const melodyNotes = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50];
+      let step = 0;
+      playSoftChime(523.25, 2.5);
+
+      musicInterval = setInterval(() => {
+        const note = melodyNotes[step % melodyNotes.length];
+        playSoftChime(note, 2.2);
+        if (step % 2 === 0) {
+          playSoftChime(note * 0.75, 2.8, 0.4);
+        }
+        step++;
+      }, 1600);
+    }
+
+    function stopRomanticChimes() {
+      if (musicInterval) clearInterval(musicInterval);
+    }
+
+    // 4. Fireworks & Heart Bursts
+    function launchCelebrationFireworks(e) {
+      triggerCelebrationParticles();
+    }
+
+    function triggerCelebrationParticles() {
+      confetti({
+        particleCount: 75,
+        spread: 90,
+        origin: { y: 0.65 },
+        colors: ['#d4af37', '#e0a96d', '#ffdf9e', '#ba774b', '#ffffff']
+      });
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0.1, y: 0.7 },
+          colors: ['#e0a96d', '#d4af37', '#75143a']
+        });
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 60,
+          origin: { x: 0.9, y: 0.7 },
+          colors: ['#e0a96d', '#d4af37', '#75143a']
+        });
+      }, 350);
+    }
+
+    // 5. Polaroid Image Upload and Lightbox
+    const captions = [
+      { title: "Shohar Sahab & Jeenat", sub: "Our Journey • Day 1" },
+      { title: "Beautiful Memories", sub: "Jeenat's Sweet Smile" },
+      { title: "You & Me Always", sub: "My Favorite View" },
+      { title: "Cherished Moments", sub: "Kiss of Pure Love" },
+      { title: "Our Story • 6 Months", sub: "Together In Every Step" },
+      { title: "19 • 10 • 2026", sub: "Happy Anniversary Jeenat" }
+    ];
+
+    function handleImageUpload(event, index) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById(`img-${index}`).src = e.target.result;
+          triggerCelebrationParticles();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function openLightbox(index) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      const caption = document.getElementById('lightboxCaption');
+      const sub = document.getElementById('lightboxSub');
+
+      img.src = document.getElementById(`img-${index}`).src;
+      caption.textContent = captions[index].title;
+      sub.textContent = captions[index].sub;
+      modal.classList.remove('hidden');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightboxModal').classList.add('hidden');
+    }
+
+    // 6. Love Vow Generator
+    const vows = [
+      `"Jeenat, I promise to hold your hand through every season, to listen with patience, and to love you more with every passing sunset."`,
+      `"Jeenat, wada hai tumhare har aansu ko muskaan mein badalne ka, aur har mod par sabse pehle tumhare sath khade rehne ka — Shohar Sahab."`,
+      `"I promise to keep choosing you, Jeenat, day after day, laughter after laughter, today, tomorrow, and across all our tomorrows."`,
+      `"Har subah tumhari khushi ki dua maangna, aur har sham tumhari baahon mein sukoon talaashna—yehi Shohar Sahab ka wada hai Jeenat se."`,
+      `"I promise to cherish the small things: your sleepy voice, your soft laughter, and the gentle touch that makes me whole, my Jeenat."`
+    ];
+    let vowIndex = 0;
+    function generateNewVow() {
+      vowIndex = (vowIndex + 1) % vows.length;
+      const el = document.getElementById('loveVowText');
+      el.style.opacity = '0';
+      setTimeout(() => {
+        el.textContent = vows[vowIndex];
+        el.style.opacity = '1';
+      }, 250);
+      triggerCelebrationParticles();
+    }
+
+    // 7. Live Second Counter Ticker
+    let baseSeconds = 262080;
+    setInterval(() => {
+      baseSeconds += 1;
+      const secEl = document.getElementById('counterSeconds');
+      if (secEl) {
+        secEl.textContent = baseSeconds.toLocaleString();
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
+```
